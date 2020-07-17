@@ -144,5 +144,32 @@ def demo7():
     draw('x', 'g(x)')
 
 
+def demo8():
+    def g(x1):
+        if x1 >= 0:
+            return 2 * np.sqrt(x1)
+
+    x = range(0, 101)
+    y = [g(a) for a in x]
+
+    plt.plot(x, y, color='red')
+    plt.plot(0, g(0), color='black', marker='o', markerfacecolor='black', markersize=8)
+    draw()
+
+
+def demo9():
+    def g(x1):
+        if 0 <= x1 <= 5:
+            return x1 + 2
+
+    x = range(0, 101)
+    y = [g(a) for a in x]
+
+    plt.plot(x, y, color='red')
+    plt.plot(0, g(0), color='black', marker='o', markerfacecolor='black', markersize=8)
+    plt.plot(5, g(5), color='black', marker='o', markerfacecolor='black', markersize=8)
+    draw()
+
+
 if __name__ == "__main__":
-    demo7()
+    demo9()
