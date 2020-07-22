@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib
 from IPython.core.interactiveshell import InteractiveShell
 from matplotlib import pyplot as plt
+from matplotlib.patches import Polygon
+from scipy import integrate
 
 matplotlib.use('TkAgg')
 InteractiveShell.ast_node_interactivity = 'last_expr'
@@ -40,9 +42,26 @@ def demo2():
     draw()
 
 
+def g(x):
+    return 3 * x ** 2 + 2 * x + 1
+
+
 def demo3():
-    pass
+    x = range(0, 11)
+    y = [g(a) for a in x]
+
+    fig, ax = plt.subplots()
+    plt.plot(x, y, color='red')
+    ix = np.linspace(0, 3)
+    iy = g(ix)
+    verts = [(0, 0)] + list(zip(ix, iy)) + [(3, 0)]
+    poly = Polygon(verts, facecolor='orange')
+    ax.add_patch(poly)
+
+    draw()
 
 
 if __name__ == "__main__":
-    print([*range(0,24),*np.arange(24, 25, 0.1),*range(26,101)])
+    # demo3()
+    res = integrate.quad(lambda x: g(x), 0, 3)
+    print(res)
