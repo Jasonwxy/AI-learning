@@ -32,11 +32,46 @@ def demo():
 
 
 def demo1():
-    v1 = np.array([2, 1])
-    v2 = np.array([-3, 2])
-    d = np.cross(v1, v2)
+    v1 = np.array([2, 1, -1])
+    v2 = np.array([-2, 3, 2])
+    d = np.dot(v1, v2)  # 向量点乘
     print(d)
+    c = np.cross(v1, v2)  # 向量叉乘
+    print(c)
+
+
+def matrix_demo():
+    m1 = np.matrix([[1, 3, 2], [2, 3, 3], [0, 1, -1]])
+    m2 = np.matrix([[2, 1, 4], [2, 5, 1], [2, -2, 3]])
+    e = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+    print(np.add(m1, m2))  # add 求和
+    print(np.subtract(m1, m2))  # subtract 求差
+    print(np.negative(m1))  # negative 求负
+    print(np.transpose(m1))  # transpose 矩阵转换
+    print(m1.T)  # 矩阵转换  同 transpose
+    print(2 * m1)  # 矩阵乘以标量
+    print(np.dot(m1, m2.T))  # dot 矩阵相乘
+    print(m1 @ m2.T)  # @号 矩阵相乘 同上
+    print(m1 @ e)  # 矩阵乘以单位矩阵 还是矩阵本身
+    print(np.linalg.inv(m1))  # 逆矩阵 A·B=I(单位矩阵) AB互为 逆矩阵
+    print(m1.I)  # 取逆矩阵  同上
+
+
+def demo2():  # 解方程组 3x+5y=39   4x+2y=10
+    a = np.matrix([[3, 5], [4, 2]])
+    b = np.matrix([[39], [10]])
+    print(np.linalg.solve(a, b))  # solve方法
+
+
+def demo3():
+    a = np.matrix([[2, 3], [5, 2]])
+    v = np.array([1, 2])
+    print(a @ v)  # 矩阵A和向量v T(v) = Av  称之为向量v的变换T
+    a1 = np.matrix([[2, 0], [0, 2]])
+    print(a1 @ v)  # 2倍放大
+    a2 = np.matrix([[0, 1], [-1, 0]])
+    print(a2 @ v)   # 顺时针转90°
 
 
 if __name__ == '__main__':
-    demo1()
+    demo3()
