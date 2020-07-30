@@ -1,10 +1,7 @@
 import numpy as np
 import matplotlib
-import math
 from IPython.core.interactiveshell import InteractiveShell
 from matplotlib import pyplot as plt
-from matplotlib.patches import Polygon
-from scipy import integrate
 
 matplotlib.use('TkAgg')
 InteractiveShell.ast_node_interactivity = 'last_expr'
@@ -70,8 +67,21 @@ def demo3():
     a1 = np.matrix([[2, 0], [0, 2]])
     print(a1 @ v)  # 2倍放大
     a2 = np.matrix([[0, 1], [-1, 0]])
-    print(a2 @ v)   # 顺时针转90°
+    print(a2 @ v)  # 顺时针转90°
+
+
+def demo4():
+    a = np.matrix([[3, 1], [1, 3]])
+    l, q = np.linalg.eig(a)  # 求特征值和特征向量
+    lv = np.diag(l)
+    q_inv = np.linalg.inv(q)
+    print(q)
+    print(lv)
+    print(q_inv)
+    # v = np.array([1,3])
+    print(np.around(q @ lv @ q_inv))
+    print(np.around(a))
 
 
 if __name__ == '__main__':
-    demo3()
+    demo4()
