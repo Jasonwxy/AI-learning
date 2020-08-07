@@ -1,7 +1,10 @@
 import numpy as np
 import matplotlib
 import pandas as pd
+import random
 from scipy import stats
+from scipy.stats import binom
+from scipy import special as sps
 from tabulate import tabulate
 from matplotlib import pyplot as plt
 
@@ -19,6 +22,8 @@ df = pd.DataFrame({'name': ['Dan', 'Joann', 'Pedro', 'Rosie', 'Ethan', 'Vicky', 
                    'hours': [41, 40, 36, 17, 35, 39, 40, 45, 41, 35, 30, 33, 38, 47, 24],
                    'grade': [50, 50, 46, 95, 50, 5, 57, 42, 26, 72, 78, 60, 40, 17, 85]})
 
+df = df[(df['grade'] > 5) & (df['grade'] < 95)]  # 去掉异常
+
 salary = df['salary']
 hours = df['hours']
 grade = df['grade']
@@ -26,8 +31,8 @@ cols = ['salary', 'hours', 'grade']
 
 
 def demo1():
-    # print(tabulate([['最小值', '众数', '中间值', '均值', '最大值'],
-    #                 [salary.min(), salary.mode()[0], salary.median(), salary.mean(), salary.max()]]))
+    print(tabulate([['最小值', '众数', '中间值', '均值', '最大值'],
+                    [salary.min(), salary.mode()[0], salary.median(), salary.mean(), salary.max()]]))
 
     density = stats.gaussian_kde(salary)
     n, x, _ = plt.hist(salary, histtype='step', density=True, bins=25)
@@ -118,19 +123,116 @@ def min_max_scale(v):
 
 def demo7():
     # 计算相关性
-    print(df['grade'].corr(df['salary']))
+    # print(df['grade'].corr(df['salary']))
     # 双变量数据画离散点
     df.plot(kind='scatter', title='Grade vs Salary', x='grade', y='salary')
     plt.plot(np.unique(df['grade']), np.poly1d(np.polyfit(df['grade'], df['salary'], 1))(np.unique(df['grade'])))
     plt.show()
 
+
 def demo8():
     # 最小二乘拟合
-    pass
+    df['x2'] = df['grade'] ** 2
+    df['xy'] = df['grade'] * df['salary']
+    x = df['grade'].sum()
+    y = df['salary'].sum()
+    x2 = df['x2'].sum()
+    xy = df['xy'].sum()
+    n = df['grade'].count()
+    m = ((n * xy) - (x * y)) / ((n * x2) - x ** 2)
+    b = (y - m * x) / n
+    df['fx'] = m * df['grade'] + b
+    df['error'] = df['fx'] - df['salary']
+    print('斜率为：', str(m))
+    print('y轴截距为：', str(b))
+    df.plot(kind='scatter', title='Grade vs Salary Regression', x='grade', y='salary', color='r')
+    plt.plot(df['grade'], df['fx'])
+    plt.show()
 
+
+def demo9():
+    # 线性回归方法 等同于demo8 的130行~138行
+    m, b, r, p, se = stats.linregress(df['grade'], df['salary'])
+    df['fx'] = m * df['grade'] + b
+    df['error'] = df['fx'] - df['salary']
+    print('斜率为：', str(m))
+    print('y轴截距为：', str(b))
+    df.plot(kind='scatter', title='Grade vs Salary Regression', x='grade', y='salary', color='r')
+    plt.plot(df['grade'], df['fx'])
+    plt.show()
+
+
+def demo10():
+    heads_tails = [0, 0]
+    h3 = 0
+    results = []
+    trials = 10000
+
+    # 模拟抛硬币 10000次
+    for i in range(trials):
+        toss = random.randint(0, 1)
+        heads_tails[toss] = heads_tails[toss] + 1
+        result = ['H' if random.randint(0, 1) else 'T',
+                  'H' if random.randint(0, 1) else 'T',
+                  'H' if random.randint(0, 1) else 'T']
+        results.append(result)
+        h3 = h3 + int(result == ['H', 'H', 'H'])  # 连续扔3次都是正面
+    print(heads_tails)
+
+    print('%.2f%%' % ((h3 / trials) * 100))
+    plt.figure(figsize=(6, 6))
+    plt.pie(heads_tails, labels=['heads', 'tails'])
+    plt.legend()
+    plt.show()
+
+
+def demo11():
+    # 抛3次硬币，正面朝上的概率分布
+    trials = 3
+    possibilities = 2 ** trials
+    x = np.array(range(0, trials + 1))
+    p = np.array([sps.comb(trials, i, exact=True) / possibilities for i in x])
+    # print(p)
+
+    plt.xlabel('x')
+    plt.ylabel('Possibility')
+    plt.bar(x, p)
+    plt.show()
+
+
+def demo12():
+    h = [0, 0, 0, 0]
+    trials = 10000
+
+    # 模拟抛硬币 10000次
+    for i in range(trials):
+        result = ['H' if random.randint(0, 1) else 'T',
+                  'H' if random.randint(0, 1) else 'T',
+                  'H' if random.randint(0, 1) else 'T']
+        count = result.count('H')  # 三次正面的次数
+        h[count] = h[count] + 1
+
+    res = np.array(['%.2f%%' % ((x / trials) * 100) for x in h])
+
+    print(res)
+
+
+def demo13():
+    n = 100
+    p = 0.25
+    x = np.array(range(0, n + 1))
+
+    prob = np.array([binom.pmf(k, n, p) for k in x])
+
+    print(binom.mean(n, p))
+    print(binom.var(n, p))
+    print(binom.std(n, p))
+
+    plt.xlabel('x')
+    plt.ylabel('Possibility')
+    plt.bar(x, prob)
+    plt.show()
 
 
 if __name__ == '__main__':
-    demo7()
-    # z = np.poly1d(np.polyfit(df['grade'],df['salary'],2))
-    # print(z)
+    demo13()
