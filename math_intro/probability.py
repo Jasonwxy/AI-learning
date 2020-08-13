@@ -234,5 +234,78 @@ def demo13():
     plt.show()
 
 
+def demo14():
+    searches = np.array([0.1875, 0.25, 0.3125, 0.1875, 0.125, 0.375, 0.25, 0.1875, 0.3125, 0.25, 0.25, 0.3125])
+    plt.xlabel('search results')
+    plt.ylabel('frequency')
+    plt.hist(searches)
+    plt.show()
+
+
+def demo15():
+    n, p, s = 1000, 0.5, 10000
+    df = pd.DataFrame(np.random.binomial(n, p, s) / n, columns=['p-hat'])
+    means = df['p-hat']
+    m = means.mean()
+    sd = means.std()
+    moe11 = m - sd
+    moe12 = m + sd
+    moe21 = m - (sd * 2)
+    moe22 = m + (sd * 2)
+    moe31 = m - (sd * 3)
+    moe32 = m + (sd * 3)
+
+    means.plot.hist(title='Simulate Sampling Distribution')
+
+    plt.axvline(m, color='r', linestyle='dashed', linewidth=2)
+    plt.axvline(moe11, color='m', linestyle='dashed', linewidth=2)
+    plt.axvline(moe12, color='m', linestyle='dashed', linewidth=2)
+    plt.axvline(moe21, color='y', linestyle='dashed', linewidth=2)
+    plt.axvline(moe22, color='y', linestyle='dashed', linewidth=2)
+    plt.axvline(moe31, color='b', linestyle='dashed', linewidth=2)
+    plt.axvline(moe32, color='b', linestyle='dashed', linewidth=2)
+
+    plt.show()
+
+
+def demo16():
+    mu, sigma, n = 3.2, 1.2, 500
+    data = np.array([])
+    sampling = np.array([])
+
+    for s in range(0, 10000):
+        sample = np.random.normal(mu, sigma, n)
+        data = np.append(data, sample)
+        sampling = np.append(sampling, sample.mean())
+
+    df = pd.DataFrame(sampling, columns=['mean'])
+
+    means = df['mean']
+    m = means.mean()
+    std = means.std()
+    ci = stats.norm.interval(0.954, m, std)
+
+    # means.plot.hist(title='Simulated Sampling Distribution', bins=100)
+    # plt.axvline(m, color='r', linestyle='dashed', linewidth=2)
+    # plt.axvline(ci[0], color='m', linestyle='dashed', linewidth=2)
+    # plt.axvline(ci[1], color='m', linestyle='dashed', linewidth=2)
+    # plt.show()
+
+    print('Sampling Mean: ' + str(m))
+    print('Sampling StdErr: ' + str(std))
+    print('99% Confidence Interval: ' + str(ci))
+
+
+def demo17():
+    np.random.seed(111)
+    lo = np.random.randint(-5, -1, 6)
+    mid = np.random.randint(0, 3, 38)
+    hi = np.random.randint(4, 6, 6)
+    sample = np.append(lo, np.append(mid, hi))
+    print(sample.mean())
+    plt.hist(sample)
+    plt.show()
+
+
 if __name__ == '__main__':
-    demo13()
+    demo17()
