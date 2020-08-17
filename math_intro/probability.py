@@ -283,7 +283,7 @@ def demo16():
     means = df['mean']
     m = means.mean()
     std = means.std()
-    ci = stats.norm.interval(0.954, m, std)
+    ci = stats.norm.interval(0.95, m, std)  # 置信区间 95%  ±1.96倍标准差
 
     # means.plot.hist(title='Simulated Sampling Distribution', bins=100)
     # plt.axvline(m, color='r', linestyle='dashed', linewidth=2)
@@ -297,13 +297,28 @@ def demo16():
 
 
 def demo17():
-    np.random.seed(111)
+    np.random.seed(123)
     lo = np.random.randint(-5, -1, 6)
     mid = np.random.randint(0, 3, 38)
     hi = np.random.randint(4, 6, 6)
     sample = np.append(lo, np.append(mid, hi))
-    print(sample.mean())
-    plt.hist(sample)
+    pop = np.random.normal(0, 1.15, 100000)  # 生成正态分布
+
+    t, p = stats.ttest_1samp(sample, 0)
+
+    print('t-statistic:', str(t))
+    print('p-value:', str(p))
+
+    ci = stats.norm.interval(0.9, 0, 1.15)
+    plt.hist(pop, bins=100)
+
+    plt.axvline(pop.mean(), color='y', linestyle='dashed', linewidth=2)
+    plt.axvline(ci[1], color='r', linestyle='dashed', linewidth=2)
+    plt.axvline(ci[0], color='r', linestyle='dashed', linewidth=2)
+    plt.axvline(pop.mean() + t * pop.std(), color='m', linestyle='dashed', linewidth=2)
+    plt.axvline(pop.mean() - t * pop.std(), color='m', linestyle='dashed', linewidth=2)
+
+    # plt.hist(sample)
     plt.show()
 
 
