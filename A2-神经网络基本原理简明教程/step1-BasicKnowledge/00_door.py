@@ -27,7 +27,7 @@ def door_and_prize(switch, loop_num):
 
 
 if __name__ == '__main__':
-    p1 = door_and_prize(1, 100000000)
-    p2 = door_and_prize(0, 100000000)
+    p1 = door_and_prize(1, 100000)
+    p2 = door_and_prize(0, 100000)
     print('switching  winning rate is:', p1)
     print('not switching  winning rate is:', p2)
