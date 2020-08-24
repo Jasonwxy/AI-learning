@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 
 mtl.use('TkAgg')
 
-error = 1e-3
+error = 1e-7
 
 
 def draw_fun(X, Y):  # c = np.sqrt(np.log(x*x))
@@ -65,4 +65,4 @@ def back_propagate(x, y):
 
 
 if __name__ == "__main__":
-    back_propagate(1.5, 1.8)
+    back_propagate(5, 1.8)
