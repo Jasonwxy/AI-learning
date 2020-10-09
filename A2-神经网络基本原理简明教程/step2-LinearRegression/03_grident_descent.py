@@ -10,18 +10,6 @@ data_reader = DataReader(file_name)
 data_reader.read_data()
 
 
-def single_gd():
-    train(0.1, 100, 1, 0.02)
-
-
-def mini_batch_gd():
-    train(0.3, 100, 10, 0.02)
-
-
-def full_batch_gd():
-    train(0.5, 1000, -1, 0.02)
-
-
 def train(eta, max_epoch, batch_size, eps):
     hp = HyperParameters(1, 1, eta=eta, max_epoch=max_epoch, batch_size=batch_size, eps=eps)
     net = NeuralNet(hp)
@@ -44,6 +32,4 @@ def show_result(net):
 
 
 if __name__ == "__main__":
-    single_gd()
-    mini_batch_gd()
-    full_batch_gd()
+    train(0.5, 1000, -1, 0.001)
