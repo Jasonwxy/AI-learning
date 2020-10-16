@@ -5,17 +5,13 @@ class TrainingHistory(object):
     def __init__(self):
         self.iteration = []
         self.loss_history = []
-        self.w_history = []
-        self.b_history = []
 
-    def add_loss_history(self, iteration, loss, w, b):
+    def add_loss_history(self, iteration, loss):
         self.iteration.append(iteration)
         self.loss_history.append(loss)
-        self.w_history.append(w)
-        self.b_history.append(b)
 
-    def get_last(self):
-        return self.loss_history[-1], self.w_history[-1], self.b_history[-1]
+    # def get_last(self):
+    #     return self.loss_history[-1], self.w_history[-1], self.b_history[-1]
 
     def show_loss_history(self, params, x_min=None, x_max=None, y_min=None, y_max=None):
         plt.plot(self.iteration, self.loss_history)
