@@ -1,10 +1,9 @@
 import numpy as np
 import math
 from helper_class.training_history import TrainingHistory
-
-
-# from matplotlib.colors import LogNorm
-# from matplotlib import pyplot as plt
+from helper_class.enum_def import NetType
+from helper_class.classifier_function import Logistic
+from helper_class.loss_function import LoosFunction
 
 
 class NeuralNet(object):
@@ -16,6 +15,8 @@ class NeuralNet(object):
 
     def __forward_batch(self, batch_x):
         matrix_z = np.dot(batch_x, self.w) + self.b
+        if self.params.net_type == NetType.BinaryClassifier:
+            matrix_z = Logistic.forward(matrix_z)
         return matrix_z
 
     @staticmethod
@@ -26,11 +27,12 @@ class NeuralNet(object):
         db = dz.sum(axis=0, keepdims=True) / m
         return dw, db
 
-    def __check_loss(self, data_reader):
+    def __check_loss(self, loss_fun, data_reader):
         matrix_x, matrix_y = data_reader.get_whole_train_samples()
-        m = matrix_x.shape[0]
+        # m = matrix_x.shape[0]
         matrix_z = self.__forward_batch(matrix_x)
-        loss = ((matrix_z - matrix_y) ** 2).sum() / m / 2
+        # loss = ((matrix_z - matrix_y) ** 2).sum() / m / 2
+        loss = loss_fun.check_loss(matrix_z, matrix_y)
         return loss
 
     def __update(self, dw, db):
@@ -42,9 +44,8 @@ class NeuralNet(object):
 
     def train(self, data_reader, checkpoint=0.1):
         loss_history = TrainingHistory()
-        loss = None
-        epoch = 0
-        iteration = 0
+        loss_function = LoosFunction(self.params.net_type)
+        loss = 10
         if self.params.batch_size == -1:
             self.params.batch_size = data_reader.num_train
         max_iteration = math.ceil(data_reader.num_train / self.params.batch_size)
@@ -61,7 +62,7 @@ class NeuralNet(object):
 
                 total_iteration = epoch * max_iteration + iteration
                 if (total_iteration + 1) % checkpoint_iteration == 0:
-                    loss = self.__check_loss(data_reader)
+                    loss = self.__check_loss(loss_function, data_reader)
                     loss_history.add_loss_history(total_iteration, loss)
                     # print(epoch, iteration, loss)
                     if loss < self.params.eps:
@@ -70,31 +71,3 @@ class NeuralNet(object):
                 break
         loss_history.show_loss_history(self.params)
         print(self.w, self.b)
-    #     self.loss_counter(data_reader, loss_history, self.params.batch_size, epoch * max_iteration + iteration)
-    #
-    # def loss_counter(self, data_reader, loss_history, batch_size, iteration):
-    #     last_loss, result_w, result_b = loss_history.get_last()
-    #     len1 = 50
-    #     matrix_x, matrix_y = data_reader.get_whole_train_samples()
-    #     w = np.linspace(result_w - 1, result_w + 1, len1)
-    #     b = np.linspace(result_b - 1, result_b + 1, len1)
-    #     matrix_w, matrix_b = np.meshgrid(w, b)
-    #     m = matrix_x.shape[0]
-    #     matrix_z = np.dot(matrix_x, matrix_w.ravel().reshape(1, len1 ** 2)) + matrix_b.ravel().reshape(1, len1 ** 2)
-    #     loss1 = (matrix_z - matrix_y) ** 2
-    #     loss2 = loss1.sum(axis=0, keepdims=True) / m
-    #     loss3 = loss2.reshape(len1, len1)
-    #     plt.contour(matrix_w, matrix_b, loss3, levels=np.logspace(-5, 5, 100), norm=LogNorm(), cmap=plt.cm.jet)
-    #
-    #     # show w,b trace
-    #     w_history = loss_history.w_history
-    #     b_history = loss_history.b_history
-    #     plt.plot(w_history, b_history)
-    #     plt.xlabel("w")
-    #     plt.ylabel("b")
-    #     title = str.format("batchsize={0}, iteration={1}, eta={2}, w={3:.3f}, b={4:.3f}",
-    #                        batch_size, iteration, self.params.eta, result_w, result_b)
-    #     plt.title(title)
-    #
-    #     plt.axis([result_w - 1, result_w + 1, result_b - 1, result_b + 1])
-    #     plt.show()
