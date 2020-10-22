@@ -12,7 +12,7 @@ def inference(net, reader):
     xt = reader.normalize_predicate_data(xt_raw)
     output = net.inference(xt)
     r = np.argmax(output, axis=1) + 1
-    print("output=",output)
+    print("output=", output)
     print("r=", r)
 
 
