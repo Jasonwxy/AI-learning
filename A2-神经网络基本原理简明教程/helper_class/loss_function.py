@@ -15,7 +15,7 @@ class LoosFunction(object):
         elif self.net_type == NetType.BinaryClassifier:
             loss = self.ce2(matrix_a, matrix_y, m)
         elif self.net_type == NetType.MultipleClassifier:
-            loss = None
+            loss = self.ce3(matrix_a, matrix_y, m)
         elif self.net_type == NetType.BinaryTanh:
             loss = self.ce2_tanh(matrix_a, matrix_y, m)
         return loss
@@ -33,6 +33,12 @@ class LoosFunction(object):
 
     @staticmethod
     def ce2_tanh(matrix_a, matrix_y, count):
-        # loss = -(1-y)ln(1-a)-(1+y)ln(1+a)
+        # loss = -(1-y)ln((1-a)/2)-(1+y)ln((1+a)/2)
         loss = np.sum(-(1 - matrix_y) * np.log((1 - matrix_a) / 2) - (1 + matrix_y) * np.log((1 + matrix_a) / 2))
+        return loss / count
+
+    @staticmethod
+    def ce3(matrix_a, matrix_y, count):
+        # loss = -y*ln(a)
+        loss = np.sum(-matrix_y * np.log(matrix_a))
         return loss / count

@@ -59,6 +59,14 @@ class DataReader(object):
         y_new = (self.y_raw - self.y_norm[0, 0]) / self.y_norm[0, 1]
         self.y_train = y_new
 
+    def to_one_hot(self, num_category, base=0):
+        count = self.y_raw.shape[0]
+        y = np.zeros((count, num_category))
+        for i in range(count):
+            n = int(self.y_raw[i, 0])
+            y[i, n - base] = 1
+        self.y_train = y
+
         # get batch training data
 
     def get_single_train_sample(self, iteration):

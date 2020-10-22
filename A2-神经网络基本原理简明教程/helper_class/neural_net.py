@@ -2,7 +2,7 @@ import numpy as np
 import math
 from helper_class.training_history import TrainingHistory
 from helper_class.enum_def import NetType
-from helper_class.classifier_function import Logistic, Tanh
+from helper_class.classifier_function import Logistic, Tanh, SoftMax
 from helper_class.loss_function import LoosFunction
 
 
@@ -19,6 +19,8 @@ class NeuralNet(object):
             matrix_z = Logistic.forward(matrix_z)
         elif self.params.net_type == NetType.BinaryTanh:
             matrix_z = Tanh.forward(matrix_z)
+        elif self.params.net_type == NetType.MultipleClassifier:
+            matrix_z = SoftMax.forward(matrix_z)
         return matrix_z
 
     def __backward_batch(self, batch_x, batch_y, batch_z):
