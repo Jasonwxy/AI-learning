@@ -34,5 +34,5 @@ class LoosFunction(object):
     @staticmethod
     def ce2_tanh(matrix_a, matrix_y, count):
         # loss = -(1-y)ln(1-a)-(1+y)ln(1+a)
-        loss = np.sum(-(1 - matrix_y) * np.log(1 - matrix_a) - (1 + matrix_y) * np.log(1 + matrix_a))
+        loss = np.sum(-(1 - matrix_y) * np.log((1 - matrix_a) / 2) - (1 + matrix_y) * np.log((1 + matrix_a) / 2))
         return loss / count

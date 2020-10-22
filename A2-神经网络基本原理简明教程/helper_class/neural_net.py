@@ -2,7 +2,7 @@ import numpy as np
 import math
 from helper_class.training_history import TrainingHistory
 from helper_class.enum_def import NetType
-from helper_class.classifier_function import Logistic
+from helper_class.classifier_function import Logistic, Tanh
 from helper_class.loss_function import LoosFunction
 
 
@@ -17,12 +17,15 @@ class NeuralNet(object):
         matrix_z = np.dot(batch_x, self.w) + self.b
         if self.params.net_type == NetType.BinaryClassifier:
             matrix_z = Logistic.forward(matrix_z)
+        elif self.params.net_type == NetType.BinaryTanh:
+            matrix_z = Tanh.forward(matrix_z)
         return matrix_z
 
-    @staticmethod
-    def __backward_batch(batch_x, batch_y, batch_z):
+    def __backward_batch(self, batch_x, batch_y, batch_z):
         m = batch_x.shape[0]
         dz = batch_z - batch_y
+        if self.params.net_type == NetType.BinaryTanh:
+            dz = 2 * dz
         dw = np.dot(batch_x.T, dz) / m
         db = dz.sum(axis=0, keepdims=True) / m
         return dw, db
