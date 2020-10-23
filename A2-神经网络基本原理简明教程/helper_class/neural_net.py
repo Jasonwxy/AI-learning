@@ -74,5 +74,5 @@ class NeuralNet(object):
                         break
             if loss < self.params.eps:
                 break
-        loss_history.show_loss_history(self.params)
+        # loss_history.show_loss_history(self.params)
         print(self.w, self.b)
