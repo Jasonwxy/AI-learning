@@ -1,9 +1,9 @@
 import numpy as np
 import math
-from helper_class1.training_history import TrainingHistory
-from helper_class1.enum_def import NetType
-from helper_class1.classifier_function import Logistic, Tanh, SoftMax
-from helper_class1.loss_function import LoosFunction
+from helper_class2.training_history import TrainingHistory
+from helper_class2.enum_def import NetType
+from helper_class2.classifier_function import Logistic, SoftMax
+from helper_class2.loss_function import LoosFunction
 
 
 class NeuralNet(object):
@@ -17,8 +17,6 @@ class NeuralNet(object):
         matrix_z = np.dot(batch_x, self.w) + self.b
         if self.params.net_type == NetType.BinaryClassifier:
             matrix_z = Logistic.forward(matrix_z)
-        elif self.params.net_type == NetType.BinaryTanh:
-            matrix_z = Tanh.forward(matrix_z)
         elif self.params.net_type == NetType.MultipleClassifier:
             matrix_z = SoftMax.forward(matrix_z)
         return matrix_z

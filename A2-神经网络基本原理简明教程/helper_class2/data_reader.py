@@ -1,5 +1,6 @@
 import numpy as np
 from pathlib import Path
+from helper_class2.enum_def import NetType
 
 
 class DataReader(object):
@@ -53,50 +54,89 @@ class DataReader(object):
             self.y_dev = self.y_test
 
     def normalize_x(self):
-        x_new = np.zeros(self.x_raw.shape)
-        num_feature = self.x_raw.shape[1]
-        self.x_norm = np.zeros((num_feature, 2))
+        x_merge = np.vstack((self.x_train_raw, self.x_test_raw))
+        x_merge_norm = self.__normalize_x(x_merge)
+        self.x_train = x_merge_norm[0:self.num_train, :]
+        self.x_test = x_merge_norm[self.num_train:, :]
+
+    def __normalize_x(self, raw_data):
+        temp_x = np.zeros_like(raw_data)
+        self.x_norm = np.zeros((2, self.num_feature))
         # 按列归一化,即所有样本的同一特征值分别做归一化
-        for i in range(num_feature):
-            col_i = self.x_raw[:, i]
+        for i in range(self.num_feature):
+            col_i = raw_data[:, i]
             max_value = np.max(col_i)
             min_value = np.min(col_i)
-            self.x_norm[i, 0] = min_value
-            self.x_norm[i, 1] = max_value - min_value
-            new_col = (col_i - self.x_norm[i, 0]) / self.x_norm[i, 1]
-            x_new[:, i] = new_col
-        self.x_train = x_new
+            self.x_norm[0, i] = min_value
+            self.x_norm[1, i] = max_value - min_value
+            new_col = (col_i - self.x_norm[0, i]) / self.x_norm[1, i]
+            temp_x[:, i] = new_col
+        return temp_x
+
+    def normalize_y(self, net_type, base=0):
+        if net_type == NetType.Fitting:
+            y_merge = np.vstack((self.y_train_raw, self.y_test_raw))
+            y_merge_norm = self.__normalize_y(y_merge)
+            self.y_train = y_merge_norm[0:self.num_train, :]
+            self.y_test = y_merge_norm[self.num_train:, :]
+        elif net_type == NetType.BinaryClassifier:
+            self.y_train = self.__to_zero_one(self.y_train_raw)
+            self.y_test = self.__to_zero_one(self.y_test_raw)
+        elif net_type == NetType.MultipleClassifier:
+            self.y_train = self.__to_one_hot(self.y_train_raw, base)
+            self.y_test = self.__to_one_hot(self.y_test_raw, base)
+
+    def __normalize_y(self, raw_data):
+        assert (raw_data.shape[1] == 1)
+        self.y_norm = np.zeros((2, 1))
+        max_value = np.max(raw_data)
+        min_value = np.min(raw_data)
+        self.y_norm[0, 0] = min_value
+        self.y_norm[1, 0] = max_value - min_value
+        y_new = (raw_data - self.y_norm[0, 0]) / self.y_norm[1, 0]
+        return y_new
+
+    def __to_one_hot(self, y, base=0):
+        count = y.shape[0]
+        tmp_y = np.zeros((count, self.num_category))
+        for i in range(count):
+            n = int(y[i, 0])
+            tmp_y[i, n - base] = 1
+        return tmp_y
+
+    @staticmethod
+    def __to_zero_one(y, positive_label=1, negative_label=0, positive_value=1, negative_value=0):
+        tmp_y = np.zeros_like(y)
+        for i in range(y.shape[0]):
+            if y[i, 0] == positive_label:
+                tmp_y[i, 0] = positive_value
+            elif y[i, 0] == negative_label:
+                tmp_y[i, 0] = negative_value
+        return tmp_y
+
+    def de_normalize_y(self, predict_value):
+        return predict_value * self.y_norm[1, 0] + self.y_norm[0, 0]
 
     def normalize_predicate_data(self, x):
         x_new = np.zeros(x.shape)
-        for i in range(x.shape[1]):
-            col_i = x[:, i]
-            x_new[:, i] = (col_i - self.x_norm[i, 0]) / self.x_norm[i, 1]
+        for i in range(x.shape[0]):
+            col_i = x[i, :]
+            x_new[i, :] = (col_i - self.x_norm[0, i]) / self.x_norm[1, i]
         return x_new
 
-    def normalize_y(self):
-        self.y_norm = np.zeros((1, 2))
-        max_value = np.max(self.y_raw)
-        min_value = np.min(self.y_raw)
-        self.y_norm[0, 0] = min_value
-        self.y_norm[0, 1] = max_value - min_value
-        y_new = (self.y_raw - self.y_norm[0, 0]) / self.y_norm[0, 1]
-        self.y_train = y_new
+    def generate_validation_set(self, k=10):
+        self.num_validation = int(self.num_train / k)
+        self.num_train = self.num_train - self.num_validation
+        self.x_dev = self.x_train[0:self.num_validation]
+        self.y_dev = self.y_train[0:self.num_validation]
+        self.x_train = self.x_train[self.num_validation:]
+        self.y_train = self.y_train[self.num_validation:]
 
-    def to_one_hot(self, num_category, base=0):
-        count = self.y_raw.shape[0]
-        y = np.zeros((count, num_category))
-        for i in range(count):
-            n = int(self.y_raw[i, 0])
-            y[i, n - base] = 1
-        self.y_train = y
+    def get_validation_set(self):
+        return self.x_dev, self.y_dev
 
-        # get batch training data
-
-    def get_single_train_sample(self, iteration):
-        x = self.x_train[iteration]
-        y = self.y_train[iteration]
-        return x, y
+    def get_test_set(self):
+        return self.x_test, self.y_test
 
     # get batch training data
     def get_batch_train_samples(self, batch_size, iteration):
@@ -105,9 +145,6 @@ class DataReader(object):
         batch_x = self.x_train[start:end, :]
         batch_y = self.y_train[start:end, :]
         return batch_x, batch_y
-
-    def get_whole_train_samples(self):
-        return self.x_train, self.y_train
 
     # permutation only affect along the first axis, so we need transpose the array first
     # see the comment of this class to understand the data format
