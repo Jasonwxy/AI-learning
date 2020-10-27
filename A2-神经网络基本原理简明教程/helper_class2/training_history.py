@@ -20,7 +20,6 @@ class TrainingHistory(object):
             self.loss_val.append(loss_vld)
         if accuracy_vld is not None:
             self.accuracy_val.append(accuracy_vld)
-        return False
 
     def show_loss_history(self, params, x_min=None, x_max=None, y_min=None, y_max=None):
         plt.figure(figsize=(12, 5))

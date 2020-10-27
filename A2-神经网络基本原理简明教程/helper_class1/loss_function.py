@@ -2,7 +2,7 @@ import numpy as np
 from helper_class1.enum_def import NetType
 
 
-class LoosFunction(object):
+class LossFunction(object):
 
     def __init__(self, net_type=NetType.Fitting):
         self.net_type = net_type

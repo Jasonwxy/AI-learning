@@ -3,7 +3,7 @@ import math
 from helper_class1.training_history import TrainingHistory
 from helper_class1.enum_def import NetType
 from helper_class1.classifier_function import Logistic, Tanh, SoftMax
-from helper_class1.loss_function import LoosFunction
+from helper_class1.loss_function import LossFunction
 
 
 class NeuralNet(object):
@@ -49,7 +49,7 @@ class NeuralNet(object):
 
     def train(self, data_reader, checkpoint=0.1):
         loss_history = TrainingHistory()
-        loss_function = LoosFunction(self.params.net_type)
+        loss_function = LossFunction(self.params.net_type)
         loss = 10
         if self.params.batch_size == -1:
             self.params.batch_size = data_reader.num_train
