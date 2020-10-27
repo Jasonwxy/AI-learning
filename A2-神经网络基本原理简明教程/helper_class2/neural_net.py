@@ -1,9 +1,9 @@
 import numpy as np
 import math
-from helper_class.training_history import TrainingHistory
-from helper_class.enum_def import NetType
-from helper_class.classifier_function import Logistic, Tanh, SoftMax
-from helper_class.loss_function import LoosFunction
+from helper_class1.training_history import TrainingHistory
+from helper_class1.enum_def import NetType
+from helper_class1.classifier_function import Logistic, Tanh, SoftMax
+from helper_class1.loss_function import LoosFunction
 
 
 class NeuralNet(object):

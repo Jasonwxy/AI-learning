@@ -1,5 +1,5 @@
 import numpy as np
-from helper_class.enum_def import NetType
+from helper_class1.enum_def import NetType
 
 
 class LoosFunction(object):

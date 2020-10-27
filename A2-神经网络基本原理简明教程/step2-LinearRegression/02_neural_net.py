@@ -1,6 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from helper_class.data_reader import DataReader
+from helper_class1.data_reader import DataReader
 
 file_name = '../../../ai-edu/A-基础教程/A2-神经网络基本原理简明教程/data/ch04.npz'
 

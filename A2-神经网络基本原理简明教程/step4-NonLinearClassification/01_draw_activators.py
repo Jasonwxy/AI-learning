@@ -1,6 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from helper_class.activator_function import Identity, Sigmoid, Tanh, Step, SoftPlus, Elu, Relu, LeakyRelu, BenIdentity
+from helper_class1.activator_function import Identity, Sigmoid, Tanh, Step, SoftPlus, Elu, Relu, LeakyRelu, BenIdentity
 
 
 def draw(start, end, func, label1, label2):

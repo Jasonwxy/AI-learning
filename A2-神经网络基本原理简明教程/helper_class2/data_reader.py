@@ -29,14 +29,28 @@ class DataReader(object):
         train_file = Path(self.train_file_name)
         if train_file.exists():
             data = np.load(self.train_file_name)
-            self.x_raw = data["data"]
-            self.y_raw = data["label"]
-            self.num_train = self.x_raw.shape[0]
-            self.x_train = self.x_raw
-            self.y_train = self.y_raw
+            self.x_train_raw = data["data"]
+            self.y_train_raw = data["label"]
+            assert (self.x_train_raw.shape[0] == self.y_train_raw.shape[0])
+            self.num_train = self.x_train_raw.shape[0]
+            self.num_feature = self.x_train_raw.shape[1]
+            self.num_category = len(np.unique(self.y_train_raw))
+            self.x_train = self.x_train_raw
+            self.y_train = self.y_train_raw
         else:
             raise Exception("Cannot find train file!!!")
-        # end if
+
+        test_file = Path(self.test_file_name)
+        if test_file.exists():
+            data = np.load(self.test_file_name)
+            self.x_test_raw = data["data"]
+            self.y_test_raw = data["label"]
+            assert (self.x_test_raw.shape[0] == self.y_test_raw.shape[0])
+            self.num_test = self.x_test_raw.shape[0]
+            self.x_test = self.x_test_raw
+            self.y_test = self.y_test_raw
+            self.x_dev = self.x_test
+            self.y_dev = self.y_test
 
     def normalize_x(self):
         x_new = np.zeros(self.x_raw.shape)

@@ -1,10 +1,10 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from helper_class.data_reader import DataReader
-from helper_class.hyper_parameters import HyperParameters
-from helper_class.visualizer import draw_two_category_points
-from helper_class.enum_def import NetType
-from helper_class.neural_net import NeuralNet
+from helper_class1.data_reader import DataReader
+from helper_class1.hyper_parameters import HyperParameters
+from helper_class1.visualizer import draw_two_category_points
+from helper_class1.enum_def import NetType
+from helper_class1.neural_net import NeuralNet
 
 
 class LogicDateReader(DataReader):
