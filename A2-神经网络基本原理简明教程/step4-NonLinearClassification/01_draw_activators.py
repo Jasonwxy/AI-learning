@@ -1,6 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from helper_class.activator_function import Sigmoid, Tanh
+from helper_class.activator_function import Identity, Sigmoid, Tanh, Step, SoftPlus, Elu, Relu, LeakyRelu, BenIdentity
 
 
 def draw(start, end, func, label1, label2):
@@ -20,5 +20,12 @@ def draw(start, end, func, label1, label2):
 
 
 if __name__ == '__main__':
+    draw(-7, 7, Identity(), "Identity Function", "Derivative of Identity")
     draw(-7, 7, Sigmoid(), "Sigmoid Function", "Derivative of Sigmoid")
     draw(-7, 7, Tanh(), "Tanh Function", "Derivative of Tanh")
+    draw(-5, 5, Step(0.3), "Step Function", "Derivative of Step")
+    draw(-5, 5, Relu(), "Relu Function", "Derivative of Relu")
+    draw(-4, 4, Elu(0.8), "ELU Function", "Derivative of ELU")
+    draw(-5, 5, LeakyRelu(0.01), "Leaky Relu Function", "Derivative of Leaky Relu")
+    draw(-5, 5, SoftPlus(), "SoftPlus Function", "Derivative of SoftPlus")
+    draw(-7, 7, BenIdentity(), "BenIdentity Function", "Derivative of BenIdentity")
