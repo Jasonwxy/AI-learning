@@ -20,7 +20,7 @@ class NeuralNet(object):
 
         self.wb1 = WeightsBias(self.hp.num_input, self.hp.num_hidden, self.hp.init_method, self.hp.eta)
         self.wb1.initialize_weights(self.sub_folder, False)
-        self.wb2 = WeightsBias(self.hp.num_input, self.hp.num_hidden, self.hp.init_method, self.hp.eta)
+        self.wb2 = WeightsBias(self.hp.num_hidden, self.hp.num_output, self.hp.init_method, self.hp.eta)
         self.wb2.initialize_weights(self.sub_folder, False)
 
         self.a1 = None
@@ -49,7 +49,7 @@ class NeuralNet(object):
     def backward(self, batch_x, batch_y):
         m = batch_x.shape[0]
         dz2 = self.a2 - batch_y
-        self.wb2.dw = np.dot(self.a2.T, dz2) / m
+        self.wb2.dw = np.dot(self.a1.T, dz2) / m
         self.wb2.db = np.sum(dz2, axis=0, keepdims=True) / m
         d1 = np.dot(dz2, self.wb2.w.T)
         dz1, _ = Sigmoid().backward(None, self.a1, d1)
@@ -103,7 +103,7 @@ class NeuralNet(object):
         self.forward(vld_x)
         loss_vld = self.loss_func.check_loss(self.a2, vld_y)
         accuracy_vld = self.__cal_accuracy(self.a2, vld_y)
-        print("loss_train=%.6f, accuracy_train=%f" % (loss_vld, accuracy_vld))
+        print("loss_valid=%.6f, accuracy_valid=%f" % (loss_vld, accuracy_vld))
 
         need_stop = False
         self.loss_trace.add(epoch, total_iteration, loss_train, accuracy_train, loss_vld, accuracy_vld)
