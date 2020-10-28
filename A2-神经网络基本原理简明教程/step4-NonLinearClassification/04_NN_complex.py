@@ -25,18 +25,18 @@ if __name__ == '__main__':
     reader.generate_validation_set()
 
     n_input = 1
-    n_hidden = 4
+    n_hidden = 3
     n_output = 1
-    eta = 0.5
+    eta = 0.7
     batch_size = 10
     max_epoch = 10000
-    eps = 0.0001
+    eps = 0.0005
 
     hp = HyperParameters(n_input, n_hidden, n_output, eta, max_epoch, batch_size, eps, NetType.Fitting,
                          InitialMethod.Xavier)
     net = NeuralNet(hp, "complex_131")
 
-    net.load_result()
+    # net.load_result()
     net.train(reader, 50, True)
     net.show_training_history()
     show_result(net, reader, hp.to_string())
