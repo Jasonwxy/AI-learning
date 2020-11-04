@@ -66,3 +66,6 @@ class TrainingHistory(object):
         with open(file_name, 'rb') as f:
             lh = pickle.load(f)
             return lh
+
+    def get_epoch_num(self):
+        return self.epoch_seq[-1]

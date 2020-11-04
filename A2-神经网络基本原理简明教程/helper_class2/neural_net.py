@@ -93,7 +93,7 @@ class NeuralNet(object):
             print(accuracy)
 
     def check_error_and_loss(self, data_reader, batch_x, batch_y, epoch, total_iteration):
-        print("epoch=%d, total_iteration=%d" % (epoch, total_iteration))
+        print("epoch=%d, total_iteration=%d" % (epoch + 1, total_iteration + 1))
         self.forward(batch_x)
         loss_train = self.loss_func.check_loss(self.a2, batch_y)
         accuracy_train = self.__cal_accuracy(self.a2, batch_y)
@@ -146,3 +146,6 @@ class NeuralNet(object):
 
     def get_training_history(self):
         return self.loss_trace
+
+    def get_epoch_num(self):
+        return self.loss_trace.get_epoch_num()
