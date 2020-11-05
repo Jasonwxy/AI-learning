@@ -157,11 +157,12 @@ class NeuralNet(object):
 
     def test(self, data_reader):
         x, y = data_reader.get_test_set()
+        print(x.shape, y.shape)
         self.forward(x)
         return self.__cal_accuracy(self.a3, y)
 
-    def show_training_history(self):
-        self.loss_trace.show_loss_history(self.hp)
+    def show_training_history(self, x):
+        self.loss_trace.show_loss_history(self.hp, x)
 
     def get_training_trace(self):
         return self.loss_trace
