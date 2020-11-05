@@ -153,7 +153,7 @@ class NeuralNet(object):
     def load_result(self):
         self.wb1.load_result_value(self.sub_folder, 'wb1')
         self.wb2.load_result_value(self.sub_folder, 'wb2')
-        self.wb3.load_result_value(self.sub_folder, 'wb2')
+        self.wb3.load_result_value(self.sub_folder, 'wb3')
 
     def test(self, data_reader):
         x, y = data_reader.get_test_set()
