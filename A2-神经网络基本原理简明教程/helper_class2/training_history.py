@@ -21,26 +21,27 @@ class TrainingHistory(object):
         if accuracy_vld is not None:
             self.accuracy_val.append(accuracy_vld)
 
-    def show_loss_history(self, params, x_min=None, x_max=None, y_min=None, y_max=None):
+    def show_loss_history(self, params, x="epoch", x_min=None, x_max=None, y_min=None, y_max=None):
+        x_dict = {'epoch': self.epoch_seq, 'iteration': self.iteration_seq}
         plt.figure(figsize=(12, 5))
 
         plt.subplot(1, 2, 1)
-        p2, = plt.plot(self.epoch_seq, self.loss_train)
-        p1, = plt.plot(self.epoch_seq, self.loss_val)
+        p2, = plt.plot(x_dict.get(x), self.loss_train)
+        p1, = plt.plot(x_dict.get(x), self.loss_val)
+        plt.xlabel(x)
         plt.legend([p1, p2], ["validation", "train"])
         plt.title("Loss")
-        plt.xlabel("epoch")
         plt.ylabel("loss")
 
         if x_min is not None or x_max is not None or y_max is not None or y_min is not None:
             plt.axis([x_min, x_max, y_min, y_max])
 
         plt.subplot(1, 2, 2)
-        p2, = plt.plot(self.epoch_seq, self.accuracy_train)
-        p1, = plt.plot(self.epoch_seq, self.accuracy_val)
+        p2, = plt.plot(x_dict.get(x), self.accuracy_train)
+        p1, = plt.plot(x_dict.get(x), self.accuracy_val)
         plt.legend([p1, p2], ["validation", "train"])
         plt.title("Accuracy")
-        plt.xlabel("epoch")
+        plt.xlabel(x)
         plt.ylabel("accuracy")
 
         title = params.to_string()

@@ -1,8 +1,8 @@
 import numpy as np
-from helper_class2.hyper_parameters import HyperParameters
+from helper_class2.hyper_parameters2 import HyperParameters
 from helper_class2.data_reader import DataReader
 from helper_class2.enum_def import InitialMethod, NetType
-from helper_class2.neural_net import NeuralNet
+from helper_class2.neural_net2 import NeuralNet
 
 
 class XORDataReader(DataReader):
