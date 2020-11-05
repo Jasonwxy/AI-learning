@@ -21,7 +21,6 @@ if __name__ == '__main__':
                          NetType.MultipleClassifier, InitialMethod.Xavier)
 
     net = NeuralNet(hp, 'mnist_64_16')
-    net.load_result()
-    net.test(reader)
-    # net.train(reader, 0.5, True)
-    # net.show_training_history(x='epoch')
+    # net.load_result()
+    net.train(reader, 0.5, True)
+    net.show_training_history(x='epoch')

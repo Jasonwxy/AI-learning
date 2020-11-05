@@ -157,7 +157,6 @@ class NeuralNet(object):
 
     def test(self, data_reader):
         x, y = data_reader.get_test_set()
-        print(x.shape, y.shape)
         self.forward(x)
         return self.__cal_accuracy(self.a3, y)
 

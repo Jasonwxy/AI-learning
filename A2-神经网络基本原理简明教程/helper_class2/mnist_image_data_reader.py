@@ -4,7 +4,7 @@ from helper_class2.data_reader import DataReader
 
 train_image_file = '../../../ai-edu/A-基础教程/A2-神经网络基本原理简明教程/data/train-images-10'
 train_label_file = '../../../ai-edu/A-基础教程/A2-神经网络基本原理简明教程/data/train-labels-10'
-test_image_file = '../../../ai-edu/A-基础教程/A2-神经网络基本原理简明教程/data/train-images-10'
+test_image_file = '../../../ai-edu/A-基础教程/A2-神经网络基本原理简明教程/data/test-images-10'
 test_label_file = '../../../ai-edu/A-基础教程/A2-神经网络基本原理简明教程/data/test-labels-10'
 
 
