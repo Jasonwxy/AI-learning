@@ -8,7 +8,7 @@ test_image_file = '../../../ai-edu/A-基础教程/A2-神经网络基本原理简
 test_label_file = '../../../ai-edu/A-基础教程/A2-神经网络基本原理简明教程/data/test-labels-10'
 
 
-class MnistImageDataReader(DataReader):
+class MinstImageDataReader(DataReader):
     def __init__(self, mode='image', train_file=None, test_file=None):
         super().__init__(train_file, test_file)
         self.train_image_file = train_image_file

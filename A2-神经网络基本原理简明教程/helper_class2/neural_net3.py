@@ -57,13 +57,13 @@ class NeuralNet(object):
         dz3 = self.a3 - batch_y
         self.wb3.dw = np.dot(self.a2.T, dz3) / m
         self.wb3.db = np.sum(dz3, axis=0, keepdims=True) / m
-
         da2 = np.dot(dz3, self.wb3.w.T)
+
         dz2, _ = Tanh().backward(None, self.a2, da2)
         self.wb2.dw = np.dot(self.a1.T, dz2) / m
         self.wb2.db = np.sum(dz2, axis=0, keepdims=True) / m
-
         da1 = np.dot(dz2, self.wb2.w.T)
+
         dz1, _ = Sigmoid().backward(None, self.a1, da1)
         self.wb1.dw = np.dot(batch_x.T, dz1)
         self.wb1.db = np.sum(dz1, axis=0, keepdims=True) / m
