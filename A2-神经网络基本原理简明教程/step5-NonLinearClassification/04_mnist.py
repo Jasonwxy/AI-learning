@@ -1,10 +1,10 @@
-from helper_class2.minst_image_data_reader import MinstImageDataReader
+from helper_class2.mnist_image_data_reader import MnistImageDataReader
 from helper_class2.hyper_parameters3 import HyperParameters
 from helper_class2.enum_def import NetType, InitialMethod
 from helper_class2.neural_net3 import NeuralNet
 
 if __name__ == '__main__':
-    reader = MinstImageDataReader(mode='vector')
+    reader = MnistImageDataReader(mode='vector')
     reader.read_data()
     reader.normalize_x()
     reader.normalize_y(NetType.MultipleClassifier, base=0)
