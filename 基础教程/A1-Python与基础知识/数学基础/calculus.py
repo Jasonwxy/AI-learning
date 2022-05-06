@@ -23,7 +23,7 @@ def f(x):
 
 
 def demo1():
-    x = np.array(range(0, 11))
+    x = np.array(range(11))
     y = np.array([0, 10])
 
     plt.plot(x, f(x), color='g')
@@ -33,7 +33,7 @@ def demo1():
 
 
 def demo2():
-    x = [*range(0, 5), *np.arange(4, 6, 0.1), *range(6, 11)]
+    x = [*range(5), *np.arange(4, 6, 0.1), *range(6, 11)]
     y = [f(i) for i in x]
 
     plt.plot(x, y, color='lightgrey', marker='o', markerfacecolor='green', markeredgecolor='green', markersize=2)
@@ -47,7 +47,7 @@ def g(x):
 
 
 def demo3():
-    x = range(0, 11)
+    x = range(11)
     y = [g(a) for a in x]
 
     fig, ax = plt.subplots()

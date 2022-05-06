@@ -9,9 +9,7 @@ def pre_process(text):
 
     words = [nltk.word_tokenize(sent) for sent in sentences]  # 将文本拆分成单词 2. 分词
 
-    tagged_words = [nltk.pos_tag(sent) for sent in words]  # 标记单词语法分类  3. 标记词性
-
-    return tagged_words
+    return [nltk.pos_tag(sent) for sent in words]
 
 
 def blocking(grammar, words):

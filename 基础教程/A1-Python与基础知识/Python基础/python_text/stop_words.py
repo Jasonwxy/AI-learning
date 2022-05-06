@@ -12,11 +12,10 @@ with open('./file.txt', 'r') as f:
     #     print(trans_text('en', 'zh', line))
     nltk_tokens = nltk.word_tokenize(lines_in_file)
     print(nltk_tokens, len(nltk_tokens))
-    new_tokens = []
-    for word in nltk_tokens:
-        if word not in en_stops and word not in string.punctuation:
-            new_tokens.append(word)
+    new_tokens = [
+        word
+        for word in nltk_tokens
+        if word not in en_stops and word not in string.punctuation
+    ]
+
     print(nltk_tokens, len(nltk_tokens))
-
-
-
