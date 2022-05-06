@@ -17,9 +17,7 @@ def draw_function():
 
 
 def draw_gd(X):
-    Y = []
-    for i in range(len(X)):
-        Y.append(target_function(X[i]))
+    Y = [target_function(X[i]) for i in range(len(X))]
     plt.plot(X, Y)
 
 

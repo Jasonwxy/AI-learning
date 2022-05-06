@@ -18,5 +18,4 @@ class SoftMax(object):
     def forward(z):
         shift_z = z - np.max(z, axis=1, keepdims=True)
         exp_z = np.exp(shift_z)
-        a = exp_z / np.sum(exp_z, axis=1, keepdims=True)
-        return a
+        return exp_z / np.sum(exp_z, axis=1, keepdims=True)

@@ -39,8 +39,7 @@ class Sigmoid(Activator):
 
     def backward(self, z, a, delta):
         da = np.multiply(a, 1 - a)
-        dz = np.multiply(delta, da)
-        return dz
+        return np.multiply(delta, da)
 
 
 class Tanh(Activator):
@@ -49,17 +48,14 @@ class Tanh(Activator):
 
     def backward(self, z, a, delta):
         da = 1 - np.multiply(a, a)
-        dz = np.multiply(delta, da)
-        return dz
+        return np.multiply(delta, da)
 
 
 class Relu(Activator):
     def forward(self, z):
-        a = np.maximum(z, 0)
-        return a
+        return np.maximum(z, 0)
 
     def backward(self, z, a, delta):
         da = np.zeros(z.shape)
         da[z > 0] = 1
-        dz = da * delta
-        return dz
+        return da * delta

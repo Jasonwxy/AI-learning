@@ -39,8 +39,7 @@ class Tanh(Activator):
 
 class Relu(Activator):
     def forward(self, z):
-        a = np.maximum(z, 0)
-        return a
+        return np.maximum(z, 0)
 
     def backward(self, z, a, delta):
         da = np.zeros(z.shape)

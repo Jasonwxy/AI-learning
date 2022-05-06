@@ -22,8 +22,7 @@ class NeuralNet(object):
         :param x: 样本数据变量x
         :return: 前向计算结果z
         """
-        z = self.w * x + self.b
-        return z
+        return self.w * x + self.b
 
     @staticmethod
     def __backward(x, y, z):

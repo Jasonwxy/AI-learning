@@ -169,14 +169,14 @@ def demo10():
     trials = 10000
 
     # 模拟抛硬币 10000次
-    for i in range(trials):
+    for _ in range(trials):
         toss = random.randint(0, 1)
         heads_tails[toss] = heads_tails[toss] + 1
         result = ['H' if random.randint(0, 1) else 'T',
                   'H' if random.randint(0, 1) else 'T',
                   'H' if random.randint(0, 1) else 'T']
         results.append(result)
-        h3 = h3 + int(result == ['H', 'H', 'H'])  # 连续扔3次都是正面
+        h3 += int(result == ['H', 'H', 'H'])  # 连续扔3次都是正面
     print(heads_tails)
 
     print('%.2f%%' % ((h3 / trials) * 100))
@@ -190,7 +190,7 @@ def demo11():
     # 抛3次硬币，正面朝上的概率分布
     trials = 3
     possibilities = 2 ** trials
-    x = np.array(range(0, trials + 1))
+    x = np.array(range(trials + 1))
     p = np.array([sps.comb(trials, i, exact=True) / possibilities for i in x])
     # print(p)
 
@@ -205,7 +205,7 @@ def demo12():
     trials = 10000
 
     # 模拟抛硬币 10000次
-    for i in range(trials):
+    for _ in range(trials):
         result = ['H' if random.randint(0, 1) else 'T',
                   'H' if random.randint(0, 1) else 'T',
                   'H' if random.randint(0, 1) else 'T']
@@ -220,7 +220,7 @@ def demo12():
 def demo13():
     n = 100
     p = 0.25
-    x = np.array(range(0, n + 1))
+    x = np.array(range(n + 1))
 
     prob = np.array([binom.pmf(k, n, p) for k in x])
 
@@ -273,7 +273,7 @@ def demo16():
     data = np.array([])
     sampling = np.array([])
 
-    for s in range(0, 10000):
+    for _ in range(10000):
         sample = np.random.normal(mu, sigma, n)
         data = np.append(data, sample)
         sampling = np.append(sampling, sample.mean())

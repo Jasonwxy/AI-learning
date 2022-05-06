@@ -14,8 +14,7 @@ class Solution(object):
         """
         if root is None:
             return []
-        output = []
-        output.extend(root.val)
+        output = list(root.val)
         output.extend(Solution.preorder_traversal(self, root.left))
         output.extend(Solution.preorder_traversal(self, root.right))
         return output
@@ -28,8 +27,7 @@ class Solution(object):
         """
         if root is None:
             return []
-        output = []
-        output.extend(Solution.inorder_traversal(self, root.left))
+        output = list(Solution.inorder_traversal(self, root.left))
         output.extend(root.val)
         output.extend(Solution.inorder_traversal(self, root.right))
         return output
@@ -42,8 +40,7 @@ class Solution(object):
         """
         if root is None:
             return []
-        output = []
-        output.extend(Solution.postorder_traversal(self, root.left))
+        output = list(Solution.postorder_traversal(self, root.left))
         output.extend(Solution.postorder_traversal(self, root.right))
         output.extend(root.val)
         return output

@@ -5,7 +5,7 @@ import random
 # 此时，改选另外一个门会得到更大的获奖几率么？
 def door_and_prize(switch, loop_num):
     win = 0
-    for loop in range(loop_num):
+    for _ in range(loop_num):
         prize = random.randint(0, 2)  # 随机生成奖品门
         init_choice = random.randint(0, 2)  # 初始选择的门
         doors = [0, 1, 2]  # 设置三个门id
@@ -16,11 +16,8 @@ def door_and_prize(switch, loop_num):
 
         open_door = doors[random.randint(0, len(doors) - 1)]
 
-        if switch:  # 如果更换选择，init_choice+open_door+second_choice=3，全部门的总和
-            second_choice = 3 - open_door - init_choice
-        else:
-            second_choice = init_choice
-
+        # 如果更换选择，init_choice+open_door+second_choice=3，全部门的总和
+        second_choice = 3 - open_door - init_choice if switch else init_choice
         if second_choice == prize:
             win += 1
     return win / loop_num

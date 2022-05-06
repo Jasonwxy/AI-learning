@@ -37,8 +37,7 @@ class NeuralNet(object):
         # m = matrix_x.shape[0]
         matrix_z = self.__forward_batch(matrix_x)
         # loss = ((matrix_z - matrix_y) ** 2).sum() / m / 2
-        loss = loss_fun.check_loss(matrix_z, matrix_y)
-        return loss
+        return loss_fun.check_loss(matrix_z, matrix_y)
 
     def __update(self, dw, db):
         self.w = self.w - self.params.eta * dw

@@ -39,8 +39,7 @@ class Tanh(Activator):
 
 class Relu(Activator):
     def forward(self, z):
-        a = np.maximum(z, 0)
-        return a
+        return np.maximum(z, 0)
 
     def backward(self, z, a, delta):
         da = np.zeros(z.shape)
@@ -54,8 +53,7 @@ class BenIdentity(Activator):
         # (sqrt(z * z + 1) -1) / 2 + z
         p1 = np.multiply(z, z)
         p2 = np.sqrt(p1 + 1)
-        a = (p2 - 1) / 2 + z
-        return a
+        return (p2 - 1) / 2 + z
 
     def backward(self, z, a, delta):
         da = z / (2 * np.sqrt(z ** 2 + 1)) + 1
@@ -91,8 +89,7 @@ class LeakyRelu(Activator):
 
 class SoftPlus(Activator):
     def forward(self, z):
-        a = np.log(1 + np.exp(z))
-        return a
+        return np.log(1 + np.exp(z))
 
     def backward(self, z, a, delta):
         p = np.exp(z)
@@ -106,10 +103,8 @@ class Step(Activator):
         self.threshold = threshold
 
     def forward(self, z):
-        a = np.array([1 if x > self.threshold else 0 for x in z])
-        return a
+        return np.array([1 if x > self.threshold else 0 for x in z])
 
     def backward(self, z, a, delta):
         da = np.zeros(a.shape)
-        dz = da
-        return dz, da
+        return da, da

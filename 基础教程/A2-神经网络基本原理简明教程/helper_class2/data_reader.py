@@ -28,19 +28,18 @@ class DataReader(object):
     # read data from file
     def read_data(self):
         train_file = Path(self.train_file_name)
-        if train_file.exists():
-            data = np.load(self.train_file_name)
-            self.x_train_raw = data["data"]
-            self.y_train_raw = data["label"]
-            assert (self.x_train_raw.shape[0] == self.y_train_raw.shape[0])
-            self.num_train = self.x_train_raw.shape[0]
-            self.num_feature = self.x_train_raw.shape[1]
-            self.num_category = len(np.unique(self.y_train_raw))
-            self.x_train = self.x_train_raw
-            self.y_train = self.y_train_raw
-        else:
+        if not train_file.exists():
             raise Exception("Cannot find train file!!!")
 
+        data = np.load(self.train_file_name)
+        self.x_train_raw = data["data"]
+        self.y_train_raw = data["label"]
+        assert (self.x_train_raw.shape[0] == self.y_train_raw.shape[0])
+        self.num_train = self.x_train_raw.shape[0]
+        self.num_feature = self.x_train_raw.shape[1]
+        self.num_category = len(np.unique(self.y_train_raw))
+        self.x_train = self.x_train_raw
+        self.y_train = self.y_train_raw
         test_file = Path(self.test_file_name)
         if test_file.exists():
             data = np.load(self.test_file_name)
@@ -93,8 +92,7 @@ class DataReader(object):
         min_value = np.min(raw_data)
         self.y_norm[0, 0] = min_value
         self.y_norm[1, 0] = max_value - min_value
-        y_new = (raw_data - self.y_norm[0, 0]) / self.y_norm[1, 0]
-        return y_new
+        return (raw_data - self.y_norm[0, 0]) / self.y_norm[1, 0]
 
     def __to_one_hot(self, y, base=0):
         count = y.shape[0]

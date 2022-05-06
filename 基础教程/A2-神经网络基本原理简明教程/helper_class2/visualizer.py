@@ -9,9 +9,7 @@ def draw_two_category_points(x1, x2, y, xlabel='x1', ylabel='x2', title=None, sh
     assert (x1.shape[0] == x2.shape[0] == y.shape[0])
     count = x1.shape[0]
     for i in range(count):
-        j = int(round(y[i]))
-        if j < 0:
-            j = 0
+        j = max(int(round(y[i])), 0)
         if is_predicate:
             plt.scatter(x1[i], x2[i], color=colors[j], marker='^', s=200, zorder=10)
         else:
